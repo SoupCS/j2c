@@ -122,41 +122,6 @@ public class MethodCompiler {
                             )
                     );
 
-            /*
-            switch (node.getOpcode()) {
-            case Opcodes.ARRAYLENGTH:
-            case Opcodes.DALOAD:
-            case Opcodes.LALOAD:
-                return currentStackPointer;
-            case Opcodes.IALOAD:
-            case Opcodes.FCMPG:
-            case Opcodes.FCMPL:
-            case Opcodes.IREM:
-            case Opcodes.IDIV:
-            case Opcodes.SALOAD:
-            case Opcodes.CALOAD:
-            case Opcodes.BALOAD:
-            case Opcodes.AALOAD:
-            case Opcodes.FALOAD:
-            case Opcodes.ATHROW:
-                return currentStackPointer - 1;
-            case Opcodes.IASTORE:
-            case Opcodes.DCMPG:
-            case Opcodes.DCMPL:
-            case Opcodes.SASTORE:
-            case Opcodes.CASTORE:
-            case Opcodes.BASTORE:
-            case Opcodes.AASTORE:
-            case Opcodes.FASTORE:
-                return currentStackPointer - 3;
-            case Opcodes.LASTORE:
-            case Opcodes.DASTORE:
-                return currentStackPointer - 4;
-            case Opcodes.LREM:
-            case Opcodes.LDIV:
-                return currentStackPointer - 2;
-        }
-            * */
 
             if (abstractInsnNode.getOpcode() != -1) {
                 writer.writeln("    } // stack %d".formatted(writer.getStackPointer().peek()));
