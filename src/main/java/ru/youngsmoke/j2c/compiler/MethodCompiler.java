@@ -2,9 +2,9 @@ package ru.youngsmoke.j2c.compiler;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.tree.LabelNode;
+import org.objectweb.asm.tree.MethodNode;
 import ru.youngsmoke.j2c.ClassWriter;
-import ru.youngsmoke.j2c.compiler.impl.*;
 import ru.youngsmoke.j2c.utils.Reflection;
 import ru.youngsmoke.j2c.utils.Util;
 
@@ -110,11 +110,11 @@ public class MethodCompiler {
                     .ifPresentOrElse(
                             compiler -> {
                                 compiler.compile(writer, abstractInsnNode, method);
-                                System.out.printf("Supported insn %s [%s] owned by %s%n",
+                            /*   System.out.printf("Supported insn %s [%s] owned by %s%n",
                                         Util.getOpcodeString(abstractInsnNode.getOpcode()),
                                         abstractInsnNode.getOpcode(),
                                         compiler.getClass()
-                                );
+                                );*/
                             },
                             () -> System.out.printf("Unsupported insn %s [%s]%n",
                                     Util.getOpcodeString(abstractInsnNode.getOpcode()),
