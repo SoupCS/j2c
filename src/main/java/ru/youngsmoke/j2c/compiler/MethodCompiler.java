@@ -42,7 +42,7 @@ public class MethodCompiler {
             compilers.add(new PopInsnCompiler());
             compilers.add(new PushInsnCompiler());
         */
-        Reflection.getClasses("ru.youngsmoke.j2c.compiler.impl", Compiler.class).forEach(compiler -> System.out.println("compilers.add(new %s());".formatted(compiler.name)));
+        Reflection.getClasses("ru.youngsmoke.j2c.compiler.impl", Compiler.class).forEach(compiler -> System.out.printf("compilers.add(new %s());%n", compiler.name));
         compilers.addAll(Reflection.getClasses("ru.youngsmoke.j2c.compiler.impl", Compiler.class));
     }
 
@@ -55,7 +55,7 @@ public class MethodCompiler {
 
         ArrayList<Type> argTypes = new ArrayList<>(Arrays.asList(args));
         if (!isStatic) {
-            argTypes.add(0, Type.getType(Object.class));
+            argTypes.addFirst(Type.getType(Object.class));
         }
         String methodName = method.name;
         writer.output.append("%s JNICALL %s(JNIEnv *env, ".formatted(CPP_TYPES[Type.getReturnType(method.desc).getSort()], methodName));
@@ -84,7 +84,7 @@ public class MethodCompiler {
             Type current = argTypes.get(i);
             writer.output.append("\n    ").append(
                             "clocal%s.%s = ".formatted(localIndex, ARG_TYPES[1]))
-                    .append(1 <= 4 ? "(jint) " : "")
+                    .append(i <= 4 ? "(jint) " : "")
                     .append(argNames.get(i))
                     .append(";\n");
             localIndex += current.getSize();
@@ -122,6 +122,41 @@ public class MethodCompiler {
                             )
                     );
 
+            /*
+            switch (node.getOpcode()) {
+            case Opcodes.ARRAYLENGTH:
+            case Opcodes.DALOAD:
+            case Opcodes.LALOAD:
+                return currentStackPointer;
+            case Opcodes.IALOAD:
+            case Opcodes.FCMPG:
+            case Opcodes.FCMPL:
+            case Opcodes.IREM:
+            case Opcodes.IDIV:
+            case Opcodes.SALOAD:
+            case Opcodes.CALOAD:
+            case Opcodes.BALOAD:
+            case Opcodes.AALOAD:
+            case Opcodes.FALOAD:
+            case Opcodes.ATHROW:
+                return currentStackPointer - 1;
+            case Opcodes.IASTORE:
+            case Opcodes.DCMPG:
+            case Opcodes.DCMPL:
+            case Opcodes.SASTORE:
+            case Opcodes.CASTORE:
+            case Opcodes.BASTORE:
+            case Opcodes.AASTORE:
+            case Opcodes.FASTORE:
+                return currentStackPointer - 3;
+            case Opcodes.LASTORE:
+            case Opcodes.DASTORE:
+                return currentStackPointer - 4;
+            case Opcodes.LREM:
+            case Opcodes.LDIV:
+                return currentStackPointer - 2;
+        }
+            * */
 
             if (abstractInsnNode.getOpcode() != -1) {
                 writer.writeln("    } // stack %d".formatted(writer.getStackPointer().peek()));
