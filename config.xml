@@ -1,0 +1,20 @@
+<jnic>
+    <targets>
+        <target>WINDOWS_X86_64</target>
+        <!--<target>WINDOWS_AARCH64</target>-->
+        <target>MACOS_X86_64</target>
+        <!--<target>MACOS_AARCH64</target>-->
+        <target>LINUX_X86_64</target>
+        <!--<target>LINUX_AARCH64</target>-->
+    </targets>
+    <include>
+        <!-- Match supports Ant style path matching? Match one character, * match multiple characters, * * match multiple paths -->
+        <match className="**"/>
+        <!--<match className="dev/jnic/web/**" />-->
+        <!--<match className="dev.jnic.service.**" />-->
+    </include>
+    <exclude>
+        <!--<match className="dev/jnic/Main" methodName="main" methodDesc="(\[Ljava/lang/String;)V"/>-->
+        <!--<match className="dev.jnic.test.**" />-->
+    </exclude>
+</jnic>
