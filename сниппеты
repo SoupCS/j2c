@@ -1,0 +1,144 @@
+
+ANEWARRAY=if (cstack$stackindexm1.i < 0) utils::throw_re(env, #NASE, #ERROR_DESC, $line); else { cstack$stackindexm1.l = env->NewObjectArray(cstack$stackindexm1.i, $desc_ptr, nullptr); refs.insert(cstack$stackindexm1.l); }
+ANEWARRAY_S_VARS=#NASE,#ERROR_DESC
+ANEWARRAY_S_CONST_NASE=java/lang/NegativeArraySizeException
+ANEWARRAY_S_CONST_ERROR_DESC=ANEWARRAY array size < 0
+
+ARRAYLENGTH=if (cstack$stackindexm1.l == nullptr) utils::throw_re(env, #NPE, #ERROR_DESC, $line); else cstack$stackindexm1.i = env->GetArrayLength((jarray) cstack$stackindexm1.l);
+ARRAYLENGTH_S_VARS=#NPE,#ERROR_DESC
+ARRAYLENGTH_S_CONST_NPE=java/lang/NullPointerException
+ARRAYLENGTH_S_CONST_ERROR_DESC=ARRAYLENGTH npe
+
+MULTIANEWARRAY=cstack$returnstackindex.l = utils::create_multidim_array(env, classloader, $count, $required_count, $desc, $line, $dims);
+MULTIANEWARRAY_VALUE=cstack$returnstackindex.l = utils::create_multidim_array_value<$sort>(env, $count, $required_count, $desc, $line, $dims);
+
+
+IALOAD=if (cstack$stackindexm2.l == nullptr) {} else { env->GetIntArrayRegion((jintArray) cstack$stackindexm2.l, cstack$stackindexm1.i, 1, &cstack$stackindexm2.i); }
+LALOAD=if (cstack$stackindexm2.l == nullptr) {} else { env->GetLongArrayRegion((jlongArray) cstack$stackindexm2.l, cstack$stackindexm1.i, 1, &cstack$stackindexm2.j); }
+FALOAD=if (cstack$stackindexm2.l == nullptr) {} else { env->GetFloatArrayRegion((jfloatArray) cstack$stackindexm2.l, cstack$stackindexm1.i, 1, &cstack$stackindexm2.f); }
+DALOAD=if (cstack$stackindexm2.l == nullptr) {} else { env->GetDoubleArrayRegion((jdoubleArray) cstack$stackindexm2.l, cstack$stackindexm1.i, 1, &cstack$stackindexm2.d); }
+AALOAD=if (cstack$stackindexm2.l == nullptr) {} else { cstack$stackindexm2.l = env->GetObjectArrayElement((jobjectArray) cstack$stackindexm2.l, cstack$stackindexm1.i);  }
+BALOAD=if (cstack$stackindexm2.l == nullptr) {} else { cstack$stackindexm2.i = (jint) utils::baload(env, (jarray) cstack$stackindexm2.l, cstack$stackindexm1.i); }
+CALOAD=if (cstack$stackindexm2.l == nullptr) {} else { jchar temp = 0; env->GetCharArrayRegion((jcharArray) cstack$stackindexm2.l, cstack$stackindexm1.i, 1, &temp); cstack$stackindexm2.i = (jint) temp; }
+SALOAD=if (cstack$stackindexm2.l == nullptr) {} else { jshort temp = 0; env->GetShortArrayRegion((jshortArray) cstack$stackindexm2.l, cstack$stackindexm1.i, 1, &temp); cstack$stackindexm2.i = (jint) temp; }
+
+IASTORE=if (cstack$stackindexm3.l == nullptr) {} else { env->SetIntArrayRegion((jintArray) cstack$stackindexm3.l, cstack$stackindexm2.i, 1, &cstack$stackindexm1.i); }
+LASTORE=if (cstack$stackindexm4.l == nullptr) {} else { env->SetLongArrayRegion((jlongArray) cstack$stackindexm4.l, cstack$stackindexm3.i, 1, &cstack$stackindexm2.j); }
+FASTORE=if (cstack$stackindexm3.l == nullptr) {} else { env->SetFloatArrayRegion((jfloatArray) cstack$stackindexm3.l, cstack$stackindexm2.i, 1, &cstack$stackindexm1.f); }
+DASTORE=if (cstack$stackindexm4.l == nullptr) {} else { env->SetDoubleArrayRegion((jdoubleArray) cstack$stackindexm4.l, cstack$stackindexm3.i, 1, &cstack$stackindexm2.d); }
+AASTORE=if (cstack$stackindexm3.l == nullptr) {} else { env->SetObjectArrayElement((jobjectArray) cstack$stackindexm3.l, cstack$stackindexm2.i, cstack$stackindexm1.l); }
+BASTORE=if (cstack$stackindexm3.l == nullptr) {} else { utils::bastore(env, (jarray) cstack$stackindexm3.l, cstack$stackindexm2.i, cstack$stackindexm1.i); }
+CASTORE=if (cstack$stackindexm3.l == nullptr) {} else { jchar temp = (jchar) cstack$stackindexm1.i; env->SetCharArrayRegion((jcharArray) cstack$stackindexm3.l, cstack$stackindexm2.i, 1, &temp); }
+SASTORE=if (cstack$stackindexm3.l == nullptr) {} else { jshort temp = (jshort) cstack$stackindexm1.i; env->SetShortArrayRegion((jshortArray) cstack$stackindexm3.l, cstack$stackindexm2.i, 1, &temp); }
+
+
+
+IDIV=if (cstack$stackindexm1.i == -1 && cstack$stackindexm2.i == ((jint) 2147483648U)) { } else { if (cstack$stackindexm1.i == 0) { } else { cstack$stackindexm2.i = cstack$stackindexm2.i / cstack$stackindexm1.i; } }
+
+LDIV=if (cstack$stackindexm2.j == -1 && cstack$stackindexm4.j == ((jlong) 9223372036854775808ULL)) { } else if (cstack$stackindexm2.j == 0) { } else { cstack$stackindexm4.j = cstack$stackindexm4.j / cstack$stackindexm2.j; }
+
+IREM=if (cstack$stackindexm1.i == 0) { } else { cstack$stackindexm2.i = cstack$stackindexm2.i % cstack$stackindexm1.i; }
+
+LREM=if (cstack$stackindexm2.j == 0) { utils::throw_re(env, #AE, #ERROR_DESC, $line);  } else { cstack$stackindexm4.j = cstack$stackindexm4.j % cstack$stackindexm2.j; }
+
+
+
+FCMPL={ jfloat value1 = cstack$stackindexm2.f; jfloat value2 = cstack$stackindexm1.f; cstack$stackindexm2.i = value1 > value2 ? 1 : ((value1 == value2) ? 0 : ((value1 < value2) ? -1 : -1)); }
+FCMPG={ jfloat value1 = cstack$stackindexm2.f; jfloat value2 = cstack$stackindexm1.f; cstack$stackindexm2.i = value1 > value2 ? 1 : ((value1 == value2) ? 0 : ((value1 < value2) ? -1 : 1)); }
+DCMPL={ jdouble value1 = cstack$stackindexm4.d; jdouble value2 = cstack$stackindexm2.d; cstack$stackindexm4.i = value1 > value2 ? 1 : ((value1 == value2) ? 0 : ((value1 < value2) ? -1 : -1)); }
+DCMPG={ jdouble value1 = cstack$stackindexm4.d; jdouble value2 = cstack$stackindexm2.d; cstack$stackindexm4.i = value1 > value2 ? 1 : ((value1 == value2) ? 0 : ((value1 < value2) ? -1 : 1)); }
+
+
+
+TABLESWITCH_START=switch (cstack$stackindexm1.i) {
+TABLESWITCH_PART=    case $index: goto $label; break;
+TABLESWITCH_DEFAULT=    default: goto $label; break;
+TABLESWITCH_END=}
+
+LOOKUPSWITCH_START=switch (cstack$stackindexm1.i) {
+LOOKUPSWITCH_PART=    case $key: goto $label; break;
+LOOKUPSWITCH_DEFAULT=    default: goto $label; break;
+LOOKUPSWITCH_END=}
+
+ATHROW=if (cstack$stackindexm1.l == nullptr) {} else { jthrowable exception = (jthrowable) cstack$stackindexm1.l; env->Throw(exception); }
+
+
+TRYCATCH_START=if (env->ExceptionCheck()) { jthrowable exception = env->ExceptionOccurred(); env->ExceptionClear(); cstack0.l = exception;
+TRYCATCH_CHECK_STACK=if (env->IsInstanceOf(cstack0.l, $exception_class_ptr)) { goto $handler_block; }
+TRYCATCH_ANY_L=goto $handler_block;
+TRYCATCH_END_STACK=env->Throw((jthrowable) cstack0.l); return ($rettype) 0;
+TRYCATCH_EMPTY=if (env->ExceptionCheck()) { return ($rettype) 0; }
+
+
+NEWARRAY_4=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewBooleanArray(cstack$stackindexm1.i); }
+NEWARRAY_5=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewCharArray(cstack$stackindexm1.i); }
+NEWARRAY_6=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewFloatArray(cstack$stackindexm1.i); }
+NEWARRAY_7=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewDoubleArray(cstack$stackindexm1.i);  }
+NEWARRAY_8=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewByteArray(cstack$stackindexm1.i); }
+NEWARRAY_9=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewShortArray(cstack$stackindexm1.i); }
+NEWARRAY_10=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewIntArray(cstack$stackindexm1.i); }
+NEWARRAY_11=if (cstack$stackindexm1.i < 0) {} else { cstack$stackindexm1.l = env->NewLongArray(cstack$stackindexm1.i); }
+
+INVOKE_ARG_1=cstack$index.i
+INVOKE_ARG_2=cstack$index.i
+INVOKE_ARG_3=cstack$index.i
+INVOKE_ARG_4=cstack$index.i
+INVOKE_ARG_5=cstack$index.i
+INVOKE_ARG_6=cstack$index.f
+INVOKE_ARG_7=cstack$index.j
+INVOKE_ARG_8=cstack$index.d
+INVOKE_ARG_9=cstack$index.l
+INVOKE_ARG_10=cstack$index.l
+INVOKE_ARG_11=cstack$index.l
+
+INVOKESPECIAL_0=if (cstack$objectstackindex.l == nullptr) {} else { env->CallNonvirtualVoidMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_1=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallNonvirtualBooleanMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_2=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallNonvirtualCharMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_3=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallNonvirtualByteMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_4=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallNonvirtualShortMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_5=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = env->CallNonvirtualIntMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_6=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.f = env->CallNonvirtualFloatMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_7=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.j = env->CallNonvirtualLongMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_8=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.d = env->CallNonvirtualDoubleMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_9=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallNonvirtualObjectMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_10=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallNonvirtualObjectMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+INVOKESPECIAL_11=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallNonvirtualObjectMethod(cstack$objectstackindex.l, $class_ptr, $methodid$args); }
+
+INVOKEINTERFACE_0=if (cstack$objectstackindex.l == nullptr) {} else {env->CallVoidMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_1=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.i = (jint) env->CallBooleanMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_2=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.i = (jint) env->CallCharMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_3=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.i = (jint) env->CallByteMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_4=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.i = (jint) env->CallShortMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_5=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.i = env->CallIntMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_6=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.f = env->CallFloatMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_7=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.j = env->CallLongMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_8=if (cstack$objectstackindex.l == nullptr) {} else {cstack$returnstackindex.d = env->CallDoubleMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_9=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallObjectMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_10=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallObjectMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEINTERFACE_11=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallObjectMethod(cstack$objectstackindex.l, $methodid$args); }
+
+INVOKEVIRTUAL_0=if (cstack$objectstackindex.l == nullptr) {} else { env->CallVoidMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_1=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallBooleanMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_2=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallCharMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_3=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallByteMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_4=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = (jint) env->CallShortMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_5=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.i = env->CallIntMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_6=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.f = env->CallFloatMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_7=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.j = env->CallLongMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_8=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.d = env->CallDoubleMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_9=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallObjectMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_10=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallObjectMethod(cstack$objectstackindex.l, $methodid$args); }
+INVOKEVIRTUAL_11=if (cstack$objectstackindex.l == nullptr) {} else { cstack$returnstackindex.l = env->CallObjectMethod(cstack$objectstackindex.l, $methodid$args); }
+
+INVOKESTATIC_0=env->CallStaticVoidMethod($class_ptr, $methodid$args);
+INVOKESTATIC_1=cstack$returnstackindex.i = (jint) env->CallStaticBooleanMethod($class_ptr, $methodid$args);
+INVOKESTATIC_2=cstack$returnstackindex.i = (jint) env->CallStaticCharMethod($class_ptr, $methodid$args);
+INVOKESTATIC_3=cstack$returnstackindex.i = (jint) env->CallStaticByteMethod($class_ptr, $methodid$args);
+INVOKESTATIC_4=cstack$returnstackindex.i = (jint) env->CallStaticShortMethod($class_ptr, $methodid$args);
+INVOKESTATIC_5=cstack$returnstackindex.i = env->CallStaticIntMethod($class_ptr, $methodid$args);
+INVOKESTATIC_6=cstack$returnstackindex.f = env->CallStaticFloatMethod($class_ptr, $methodid$args);
+INVOKESTATIC_7=cstack$returnstackindex.j = env->CallStaticLongMethod($class_ptr, $methodid$args);
+INVOKESTATIC_8=cstack$returnstackindex.d = env->CallStaticDoubleMethod($class_ptr, $methodid$args);
+INVOKESTATIC_9=cstack$returnstackindex.l = env->CallStaticObjectMethod($class_ptr, $methodid$args);
+INVOKESTATIC_10=cstack$returnstackindex.l = env->CallStaticObjectMethod($class_ptr, $methodid$args);
+INVOKESTATIC_11=cstack$returnstackindex.l = env->CallStaticObjectMethod($class_ptr, $methodid$args);
