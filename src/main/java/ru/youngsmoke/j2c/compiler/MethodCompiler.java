@@ -2,6 +2,7 @@ package ru.youngsmoke.j2c.compiler;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodNode;
 import ru.youngsmoke.j2c.ClassWriter;
@@ -46,7 +47,7 @@ public class MethodCompiler {
         compilers.addAll(Reflection.getClasses("ru.youngsmoke.j2c.compiler.impl", Compiler.class));
     }
 
-    public void process(MethodNode method, ClassWriter writer) {
+    public void process(MethodNode method, ClassNode clazz, ClassWriter writer) {
         if (method.name.equals("<init>")) return;
 
         Type[] args = Type.getArgumentTypes(method.desc);
@@ -57,8 +58,8 @@ public class MethodCompiler {
         if (!isStatic) {
             argTypes.addFirst(Type.getType(Object.class));
         }
-        String methodName = method.name;
-        writer.output.append("%s JNICALL %s(JNIEnv *env, ".formatted(CPP_TYPES[Type.getReturnType(method.desc).getSort()], methodName));
+        String methodName = Util.getJNICompatibleName(method.name);
+        writer.output.append("%s JNICALL %s(JNIEnv *env, ".formatted(CPP_TYPES[Type.getReturnType(method.desc).getSort()], clazz.name.replace("/", "_") + "_" + methodName));
 
         writer.output.append(Util.getFlag(method.access, Opcodes.ACC_STATIC) ? "jclass clazz" : "jobject obj");
 

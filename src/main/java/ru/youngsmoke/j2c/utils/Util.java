@@ -429,4 +429,37 @@ public class Util {
     public static boolean hasFlag(int access, int flag) {
         return (access & flag) != 0;
     }
+
+    public static String getJNICompatibleName(String name) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : name.toCharArray()) {
+            if (c < 127) {
+                switch (c) {
+                    case '.':
+                    case '/':
+                        sb.append('_');
+                        break;
+                    case '$':
+                        sb.append("_00024");
+                        break;
+                    case '_':
+                        sb.append("_1");
+                        break;
+                    case ';':
+                        sb.append("_2");
+                        break;
+                    case '[':
+                        sb.append("_3");
+                        break;
+                    default:
+                        sb.append(c);
+                }
+            } else {
+                sb.append("_0");
+                sb.append(String.format("%04x", (int) c));
+            }
+        }
+        return sb.toString();
+    }
+
 }

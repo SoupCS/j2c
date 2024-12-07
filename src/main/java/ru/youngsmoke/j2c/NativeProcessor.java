@@ -2,8 +2,8 @@ package ru.youngsmoke.j2c;
 
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodNode;
 import ru.youngsmoke.j2c.compiler.MethodCompiler;
 import ru.youngsmoke.j2c.preprocessors.PreprocessorRunner;
 import ru.youngsmoke.j2c.utils.Util;
@@ -131,8 +131,6 @@ public class NativeProcessor {
         Path cppDir = outputDir.resolve("cpp");
         Files.createDirectories(cppDir);
         Util.copyResource("jni.h", cppDir);
-        HashMap<String, ClassNode> map = new HashMap<>();
-        HashMap<String, String> classNameMap = new HashMap<>();
         StringBuilder instructions = new StringBuilder(); // список который будет заполнен уже С++ кодом
         File jarFile = inputJarPath.toAbsolutePath().toFile();
         Path temp = Files.createTempDirectory("native");
@@ -153,7 +151,6 @@ public class NativeProcessor {
 
                 try {
                     if (!entry.getName().endsWith(".class")) {
-                        //   System.out.println("1: " + entry.getName());
                         Util.writeEntry(jar, out, entry);
                         return;
                     }
@@ -176,9 +173,6 @@ public class NativeProcessor {
                         Util.writeEntry(out, entry.getName(), src);
                         return;
                     }
-
-
-
        /*             rawClassNode.methods.stream()
                             .filter(NativeProcessor::shouldProcess)
                             .filter(methodNode -> classMethodFilter.shouldProcess(rawClassNode, methodNode))
@@ -206,7 +200,7 @@ public class NativeProcessor {
                     ClassWriter writer = new ClassWriter();
                     classNode.methods.stream()
                             .filter(methodNode -> (!methodNode.name.equalsIgnoreCase("<clinit>") && !methodNode.name.equalsIgnoreCase("<init>")))
-                            .forEach(method -> /*{System.out.println(method.name);}*/methodCompiler.process(method, writer));
+                            .forEach(method -> /*{System.out.println(method.name);}*/methodCompiler.process(method, classNode, writer));
                     instructions.append(writer.output);
                     SafeClassWriter classWriter = new SafeClassWriter(metadataReader, 458755);
                     classNode.accept(classWriter);
@@ -218,6 +212,12 @@ public class NativeProcessor {
                 }
             });
             mainWriter.append(instructions);
+            mainWriter.append("extern \"C\" {")
+                    .append("""
+                                JNIEXPORT void JNICALL ru_youngsmoke_protection_Protection_initialize(JNIEnv *env, jclass clazz) {}
+                            
+                            """)
+                    .append("}");
             mainWriter.close();
             source.flush();
             source.close();

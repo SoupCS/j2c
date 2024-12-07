@@ -36,6 +36,8 @@ public class Protection {
 
     private static boolean initialized;
 
+    private static native void initialize();
+
     static {
         if (!initialized) {
             initialized = true;
@@ -99,5 +101,4 @@ public class Protection {
         }
     }
 
-    private static native void initialize();
 }
