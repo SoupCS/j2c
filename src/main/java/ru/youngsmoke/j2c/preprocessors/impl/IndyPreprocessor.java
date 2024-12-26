@@ -16,7 +16,6 @@ public class IndyPreprocessor implements Preprocessor {
 
     private static void processIndy(ClassNode classNode, MethodNode methodNode,
                                     InvokeDynamicInsnNode invokeDynamicInsnNode) {
-
         try {
             LabelNode bootstrapStart = new LabelNode(new Label());
             LabelNode bootstrapEnd = new LabelNode(new Label());
